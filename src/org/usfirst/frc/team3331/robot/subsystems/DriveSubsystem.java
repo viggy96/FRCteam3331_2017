@@ -12,6 +12,8 @@ public class DriveSubsystem extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+	
+	public final double CURVE_SCALE_FACTOR = 0.03;
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -23,7 +25,11 @@ public class DriveSubsystem extends Subsystem {
     	RobotMap.drivetrain.stopMotor();
     }
     
-    public void autoDrive(double leftValue, double rightValue) {
+    public void drive(double magnitude, double curve) {
+    	RobotMap.drivetrain.drive(magnitude, curve);
+    }
+    
+    public void tankDrive(double leftValue, double rightValue) {
     	RobotMap.drivetrain.tankDrive(leftValue, rightValue);
     }
     
