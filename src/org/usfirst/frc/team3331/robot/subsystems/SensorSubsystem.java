@@ -1,7 +1,9 @@
 package org.usfirst.frc.team3331.robot.subsystems;
 
+import org.usfirst.frc.team3331.robot.Robot;
 import org.usfirst.frc.team3331.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -22,10 +24,23 @@ public class SensorSubsystem extends Subsystem {
     
     public void calibrateGyro() {
     	RobotMap.gyro.calibrate();
+    	RobotMap.gyro.reset();
     }
     
     public double getGyroAngle() {
     	return RobotMap.gyro.getAngle();
+    }
+    
+    public double getGyroRate() {
+    	return RobotMap.gyro.getRate();
+    }
+    
+    public double normaliseRange(double range, Ultrasonic.Unit units) {
+    	if (units == Ultrasonic.Unit.kInches && range < Robot.sensorSubsystem.MIN_RANGE_INCHES) 
+    		return Robot.sensorSubsystem.MIN_RANGE_INCHES;
+    	else if (units == Ultrasonic.Unit.kMillimeters && range < Robot.sensorSubsystem.MIN_RANGE_MM) 
+    		return Robot.sensorSubsystem.MIN_RANGE_MM;
+    	else return range;
     }
     
     public double getRangeMM() {
@@ -35,5 +50,6 @@ public class SensorSubsystem extends Subsystem {
     public double getRangeInches() {
     	return RobotMap.ultrasonic.getRangeInches();
     }
+    
 }
 

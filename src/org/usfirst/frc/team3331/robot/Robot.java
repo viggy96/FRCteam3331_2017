@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3331.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team3331.robot.subsystems.SensorSubsystem;
+import org.usfirst.frc.team3331.robot.subsystems.VisionSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,9 +23,10 @@ public class Robot extends IterativeRobot {
 
 	public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
 	public static final SensorSubsystem sensorSubsystem = new SensorSubsystem();
+	public static final VisionSubsystem visionSubsystem = new VisionSubsystem();
 	public static OI oi;
 
-	Command autonomousCommand;
+	Command autonomousCommand = null;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
@@ -36,7 +38,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		//SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -67,7 +69,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		//autonomousCommand = chooser.getSelected();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",

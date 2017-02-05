@@ -2,6 +2,7 @@ package org.usfirst.frc.team3331.robot;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -29,4 +30,12 @@ public class RobotMap {
 	
 	public static final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 	public static final Ultrasonic ultrasonic = new Ultrasonic(0, 1);
+	
+	public static final UsbCamera camera = new UsbCamera("cam0", 0);
+	
+	public static final int image_width = 320, image_height = 240;
+	public static final int FOV = 47;
+	public static final double focal_length = 0.5 * (image_width / Math.tan(FOV / 2)); 
+	
+	public static final double DISTANCE_FROM_TARGET_INCHES = 1, DISTANCE_FROM_TARGET_MM = 1;
 }
