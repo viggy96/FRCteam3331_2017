@@ -14,6 +14,10 @@ public class DriveSubsystem extends Subsystem {
     // here. Call these from Commands.
 	
 	public final double CURVE_SCALE_FACTOR = 0.03;
+	
+	public DriveSubsystem() {
+		RobotMap.drivetrain.setSafetyEnabled(false);
+	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

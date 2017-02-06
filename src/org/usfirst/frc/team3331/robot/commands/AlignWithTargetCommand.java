@@ -22,8 +22,8 @@ public class AlignWithTargetCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	angleToTarget = Robot.visionSubsystem.getAngleToTarget();
-    	Robot.sensorSubsystem.calibrateGyro();
+    	//angleToTarget = Robot.visionSubsystem.getAngleToTarget();
+    	//Robot.sensorSubsystem.calibrateGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
