@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AlignWithTargetCommand extends Command {
 
 	double angleToTarget;
-	boolean isAligned = false;
 	
     public AlignWithTargetCommand() {
         // Use requires() here to declare subsystem dependencies
@@ -22,23 +21,18 @@ public class AlignWithTargetCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	//angleToTarget = Robot.visionSubsystem.getAngleToTarget();
-    	//Robot.sensorSubsystem.calibrateGyro();
+    	Robot.sensorSubsystem.calibrateGyro();
+    	angleToTarget = Robot.visionSubsystem.getAngleToTarget();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (Math.abs(Math.abs(Robot.sensorSubsystem.getGyroAngle()) - Math.abs(angleToTarget)) <= Robot.visionSubsystem.EPSILON) 
-    		isAligned = true;
-    	else {
-    		Robot.driveSubsystem.drive(0, Math.copySign(0.25, angleToTarget));
-    		isAligned = false;
-    	}
+    	Robot.driveSubsystem.drive(0, Math.copySign(0.5, angleToTarget));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (Math.abs(angleToTarget) <= Robot.visionSubsystem.EPSILON) || isAligned == true;
+        return Math.abs(Math.abs(Robot.sensorSubsystem.getGyroAngle()) - Math.abs(angleToTarget)) <= Robot.visionSubsystem.EPSILON;
     }
 
     // Called once after isFinished returns true

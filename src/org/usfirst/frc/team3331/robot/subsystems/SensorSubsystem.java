@@ -17,6 +17,7 @@ public class SensorSubsystem extends Subsystem {
 	public final double MIN_RANGE_INCHES = 7.9;
 	public final double MIN_RANGE_MM = 0.2;
 
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

@@ -16,13 +16,17 @@ public class DriveSubsystem extends Subsystem {
 	public final double CURVE_SCALE_FACTOR = 0.03;
 	
 	public DriveSubsystem() {
-		RobotMap.drivetrain.setSafetyEnabled(false);
+		//RobotMap.drivetrain.setSafetyEnabled(false);
 	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     	setDefaultCommand(new TeleopDriveCommand());
+    }
+    
+    public void init() {
+    	RobotMap.drivetrain.setLeftRightMotorOutputs(0, 0);
     }
     
     public void stop() {
@@ -38,8 +42,12 @@ public class DriveSubsystem extends Subsystem {
     }
     
     public void teleopDrive() {
-    	RobotMap.drivetrain.tankDrive(RobotMap.gamepad.getRawAxis(RobotMap.leftStickY), 
+    	double leftValue = Math.copySign(Math.pow(RobotMap.gamepad.getRawAxis(RobotMap.leftStickY), 2), 
+    			RobotMap.gamepad.getRawAxis(RobotMap.leftStickY));
+    	double rightValue = Math.copySign(Math.pow(RobotMap.gamepad.getRawAxis(RobotMap.rightStickY), 2), 
     			RobotMap.gamepad.getRawAxis(RobotMap.rightStickY));
+    	
+    	RobotMap.drivetrain.tankDrive(leftValue, rightValue);
     }
 }
 

@@ -32,10 +32,6 @@ public class VisionSubsystem extends Subsystem {
     }
     
     public VisionSubsystem() {
-    	RobotMap.camera.setFPS(10);
-    	RobotMap.camera.setResolution(RobotMap.image_width, RobotMap.image_height);
-    	CameraServer.getInstance().startAutomaticCapture(RobotMap.camera);
-    	/*
     	visionServer = new Thread(new Runnable() {
     		DatagramSocket serverSocket;
     		byte[] receiveData = new byte[1024];
@@ -71,7 +67,6 @@ public class VisionSubsystem extends Subsystem {
     	});
     	
     	visionServer.start();
-    	*/
     }
     
     public double getAngleToTarget() {

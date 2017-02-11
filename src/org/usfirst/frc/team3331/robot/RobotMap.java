@@ -4,8 +4,10 @@ import com.ctre.CANTalon;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.Ultrasonic;
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -34,8 +36,19 @@ public class RobotMap {
 	public static final UsbCamera camera = new UsbCamera("cam0", 0);
 	
 	public static final int image_width = 320, image_height = 240;
-	public static final int FOV = 47;
+	public static final double FOV = 64.4;
 	public static final double focal_length = 0.5 * (image_width / Math.tan(FOV / 2)); 
 	
 	public static final double DISTANCE_FROM_TARGET_INCHES = 1, DISTANCE_FROM_TARGET_MM = 1;
+	
+	public static void init() {
+		drivetrain.setInvertedMotor(MotorType.kFrontLeft, true);
+		drivetrain.setInvertedMotor(MotorType.kRearLeft, true);
+		drivetrain.setInvertedMotor(MotorType.kFrontRight, true);
+		drivetrain.setInvertedMotor(MotorType.kRearRight, true);
+		
+		camera.setFPS(10);
+    	camera.setResolution(image_width, image_height);
+    	CameraServer.getInstance().startAutomaticCapture(camera);
+	}
 }
