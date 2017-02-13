@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
-import edu.wpi.first.wpilibj.Ultrasonic;
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -31,7 +30,7 @@ public class RobotMap {
 	public static final int rightStickY = 5;
 	
 	public static final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-	public static final Ultrasonic ultrasonic = new Ultrasonic(0, 1);
+	public static final Ultrasonic ultrasonic = new Ultrasonic(0);
 	
 	public static final UsbCamera camera = new UsbCamera("cam0", 0);
 	
