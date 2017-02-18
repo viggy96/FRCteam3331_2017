@@ -12,7 +12,9 @@ import org.usfirst.frc.team3331.robot.commands.AutoCommandGroup;
 import org.usfirst.frc.team3331.robot.commands.AutoDriveForwardCommand;
 import org.usfirst.frc.team3331.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team3331.robot.subsystems.SensorSubsystem;
+import org.usfirst.frc.team3331.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team3331.robot.subsystems.VisionSubsystem;
+import org.usfirst.frc.team3331.robot.subsystems.WinchSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,6 +27,8 @@ public class Robot extends IterativeRobot {
 
 	public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
 	public static final SensorSubsystem sensorSubsystem = new SensorSubsystem();
+	public static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+	public static final WinchSubsystem winchSubsystem = new WinchSubsystem();
 	public static final VisionSubsystem visionSubsystem = new VisionSubsystem();
 	public static OI oi;
 
@@ -39,7 +43,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		RobotMap.init();
 		oi = new OI();
-		chooser.addDefault("Drive Forward", new AutoDriveForwardCommand(5.0));
+		chooser.addObject("Drive Forward", new AutoDriveForwardCommand(5.0));
 		chooser.addObject("Place Gear and turn left", new AutoCommandGroup(AutoCommandGroup.Direction.LEFT));
 		chooser.addObject("Place Gear and turn right", new AutoCommandGroup(AutoCommandGroup.Direction.RIGHT));
 		chooser.addDefault("Do Nothing", null);
