@@ -22,11 +22,11 @@ public class ShooterSubsystem extends Subsystem {
     }
     
     public void startShooterMotor() {
-    	RobotMap.shooterMotor.set(0.95);
+    	RobotMap.shooterMotor.set(-0.95);
     }
     
     public void reverseShooterMotor() {
-    	RobotMap.shooterMotor.set(-1.0);
+    	RobotMap.shooterMotor.set(1.0);
     }
 }
 

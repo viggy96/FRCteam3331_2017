@@ -12,7 +12,7 @@ public class WinchUpCommand extends Command {
     public WinchUpCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	require(Robot.winchSubsystem);
+    	requires(Robot.winchSubsystem);
     }
 
     // Called just before this Command runs the first time

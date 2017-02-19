@@ -42,10 +42,16 @@ public class DriveSubsystem extends Subsystem {
     }
     
     public void teleopDrive() {
-    	double leftValue = Math.copySign(Math.pow(RobotMap.gamepad.getRawAxis(RobotMap.leftStickY), 2), 
-    			RobotMap.gamepad.getRawAxis(RobotMap.leftStickY));
-    	double rightValue = Math.copySign(Math.pow(RobotMap.gamepad.getRawAxis(RobotMap.rightStickY), 2), 
-    			RobotMap.gamepad.getRawAxis(RobotMap.rightStickY));
+    	double leftValue = RobotMap.gamepad.getRawAxis(RobotMap.leftStickY);
+    	double rightValue = RobotMap.gamepad.getRawAxis(RobotMap.rightStickY);
+    	
+    	if (RobotMap.gamepad.getRawButton(RobotMap.rightTrigger)) {
+    		leftValue = Math.copySign(Math.pow(leftValue, 3), leftValue);
+    		rightValue = Math.copySign(Math.pow(rightValue,3), rightValue);
+    	} else {
+    		leftValue = Math.copySign(Math.pow(leftValue, 2), leftValue);
+    		rightValue = Math.copySign(Math.pow(rightValue,2), rightValue);
+    	}
     	
     	RobotMap.drivetrain.tankDrive(leftValue, rightValue);
     }

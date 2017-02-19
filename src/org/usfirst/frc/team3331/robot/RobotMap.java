@@ -34,11 +34,14 @@ public class RobotMap {
 	public static final int leftStickY = 1;
 	public static final int rightStickX = 4;
 	public static final int rightStickY = 5;
+	public static final int aButton = 1, bButton = 2, xButton = 3, yButton = 4,
+			leftTrigger = 5, rightTrigger = 6;
 	
 	public static final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 	public static final Ultrasonic ultrasonic = new Ultrasonic(0);
 	
-	public static final UsbCamera camera = new UsbCamera("cam0", 0);
+	public static final UsbCamera camera1 = new UsbCamera("cam0", 0);
+	public static final UsbCamera camera2 = new UsbCamera("cam1", 1);
 	
 	public static final int image_width = 320, image_height = 240;
 	public static final double FOV = 64.4;
@@ -52,8 +55,12 @@ public class RobotMap {
 		drivetrain.setInvertedMotor(MotorType.kFrontRight, true);
 		drivetrain.setInvertedMotor(MotorType.kRearRight, true);
 		
-		camera.setFPS(10);
-    	camera.setResolution(image_width, image_height);
-    	CameraServer.getInstance().startAutomaticCapture(camera);
+		camera1.setFPS(12);
+    	camera1.setResolution(image_width, image_height);
+    	CameraServer.getInstance().startAutomaticCapture(camera1);
+    	
+    	camera2.setFPS(12);
+    	camera2.setResolution(image_width, image_height);
+    	CameraServer.getInstance().startAutomaticCapture(camera2);
 	}
 }
