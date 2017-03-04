@@ -22,11 +22,11 @@ public class WinchSubsystem extends Subsystem {
     }
     
     public void winchUp() {
-    	RobotMap.winchMotor.set(1.0);
+    	RobotMap.winchMotor.set(-1.0);
     }
     
     public void winchDown() {
-    	RobotMap.winchMotor.set(-1.0);
+    	RobotMap.winchMotor.set(1.0);
     }
 }
 

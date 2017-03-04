@@ -25,7 +25,7 @@ public class AutoDriveForwardCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveSubsystem.drive(1, 0);
+    	Robot.driveSubsystem.drive(-0.7, 0);
     }
 
     // Make this return true when this Command no longer needs to run execute()

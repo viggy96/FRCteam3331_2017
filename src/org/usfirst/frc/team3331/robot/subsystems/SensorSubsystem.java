@@ -17,6 +17,9 @@ public class SensorSubsystem extends Subsystem {
 	public final double MIN_RANGE_INCHES = 7.9;
 	public final double MIN_RANGE_MM = 0.2;
 
+	public SensorSubsystem() {
+		RobotMap.gyro.calibrate();
+	}
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -24,7 +27,6 @@ public class SensorSubsystem extends Subsystem {
     }
     
     public void calibrateGyro() {
-    	RobotMap.gyro.calibrate();
     	RobotMap.gyro.reset();
     }
     
@@ -51,6 +53,10 @@ public class SensorSubsystem extends Subsystem {
     public double getRangeInches() {
     	return RobotMap.ultrasonic.getRangeInches();
     }
+
+	public double getVoltage() {
+		return RobotMap.ultrasonic.getVoltage();
+	}
     
 }
 

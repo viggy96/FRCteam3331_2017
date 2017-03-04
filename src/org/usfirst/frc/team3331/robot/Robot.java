@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3331.robot.commands.AutoCommandGroup;
 import org.usfirst.frc.team3331.robot.commands.AutoDriveForwardCommand;
+import org.usfirst.frc.team3331.robot.commands.Turn90LeftCommand;
+import org.usfirst.frc.team3331.robot.commands.Turn90RightCommand;
 import org.usfirst.frc.team3331.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team3331.robot.subsystems.SensorSubsystem;
 import org.usfirst.frc.team3331.robot.subsystems.ShooterSubsystem;
@@ -79,7 +81,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
-
+		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

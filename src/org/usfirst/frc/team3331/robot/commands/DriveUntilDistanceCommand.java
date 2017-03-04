@@ -28,21 +28,35 @@ public class DriveUntilDistanceCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.sensorSubsystem.calibrateGyro();
-    	if (units == Ultrasonic.Unit.kInches) speed = (Robot.sensorSubsystem.getRangeInches() < distance) ? -1.0 : 1.0;
-    	else speed = (Robot.sensorSubsystem.getRangeMM() < distance) ? -1.0 : 1.0;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveSubsystem.drive(speed, 
-    			Math.copySign(Robot.sensorSubsystem.getGyroAngle() * Robot.driveSubsystem.CURVE_SCALE_FACTOR, -speed));
+    	if (units == Ultrasonic.Unit.kInches) speed = (Robot.sensorSubsystem.getRangeInches() < distance) ? 0.6 : -0.6;
+    	else speed = (Robot.sensorSubsystem.getRangeMM() < distance) ? 0.6 : -0.6;
+    	
+    	System.out.println("Distance: " + Robot.sensorSubsystem.getRangeInches());
+    	
+    	if (speed < 0){
+    		Robot.driveSubsystem.drive(speed, 
+    				-Robot.sensorSubsystem.getGyroAngle() * Robot.driveSubsystem.CURVE_SCALE_FACTOR);
+    	} else {
+    		Robot.driveSubsystem.drive(speed, 
+    				Robot.sensorSubsystem.getGyroAngle() * Robot.driveSubsystem.CURVE_SCALE_FACTOR);
+    	}
+    			
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (units == Ultrasonic.Unit.kInches) return (Robot.sensorSubsystem.getRangeInches() <= distance);
-    	else if (units == Ultrasonic.Unit.kMillimeters) return (Robot.sensorSubsystem.getRangeMM() <= distance);
-    	else return true;
+    	if (units == Ultrasonic.Unit.kInches) {
+    		if (speed < 0) return (Robot.sensorSubsystem.getRangeInches() <= distance + 1.5);
+    		else return (Robot.sensorSubsystem.getRangeInches() >= distance);
+    	}
+    	else {
+    		if (speed < 0) return (Robot.sensorSubsystem.getRangeMM() <= distance + 50);
+    		else return (Robot.sensorSubsystem.getRangeMM()>= distance);
+    	} 
     }
 
     // Called once after isFinished returns true
@@ -53,5 +67,6 @@ public class DriveUntilDistanceCommand extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.driveSubsystem.stop();
     }
 }

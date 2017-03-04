@@ -41,7 +41,6 @@ public class RobotMap {
 	public static final Ultrasonic ultrasonic = new Ultrasonic(0);
 	
 	public static final UsbCamera camera1 = new UsbCamera("cam0", 0);
-	public static final UsbCamera camera2 = new UsbCamera("cam1", 1);
 	
 	public static final int image_width = 320, image_height = 240;
 	public static final double FOV = 64.4;
@@ -58,9 +57,5 @@ public class RobotMap {
 		camera1.setFPS(12);
     	camera1.setResolution(image_width, image_height);
     	CameraServer.getInstance().startAutomaticCapture(camera1);
-    	
-    	camera2.setFPS(12);
-    	camera2.setResolution(image_width, image_height);
-    	CameraServer.getInstance().startAutomaticCapture(camera2);
 	}
 }

@@ -23,12 +23,12 @@ public class Turn90LeftCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveSubsystem.drive(0, -1);
+    	Robot.driveSubsystem.tankDrive(0.55, -0.55);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.sensorSubsystem.getGyroAngle() >= 90;
+        return Robot.sensorSubsystem.getGyroAngle() <= -90;
     }
 
     // Called once after isFinished returns true
@@ -39,5 +39,6 @@ public class Turn90LeftCommand extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.driveSubsystem.stop();
     }
 }

@@ -16,7 +16,7 @@ public class DriveSubsystem extends Subsystem {
 	public final double CURVE_SCALE_FACTOR = 0.03;
 	
 	public DriveSubsystem() {
-		//RobotMap.drivetrain.setSafetyEnabled(false);
+		RobotMap.drivetrain.setSafetyEnabled(false);
 	}
 
     public void initDefaultCommand() {
@@ -45,9 +45,9 @@ public class DriveSubsystem extends Subsystem {
     	double leftValue = RobotMap.gamepad.getRawAxis(RobotMap.leftStickY);
     	double rightValue = RobotMap.gamepad.getRawAxis(RobotMap.rightStickY);
     	
-    	if (RobotMap.gamepad.getRawButton(RobotMap.rightTrigger)) {
-    		leftValue = Math.copySign(Math.pow(leftValue, 3), leftValue);
-    		rightValue = Math.copySign(Math.pow(rightValue,3), rightValue);
+    	if (RobotMap.gamepad.getRawButton(RobotMap.leftTrigger)) {
+    		leftValue *= 0.6;
+    		rightValue *= 0.6;
     	} else {
     		leftValue = Math.copySign(Math.pow(leftValue, 2), leftValue);
     		rightValue = Math.copySign(Math.pow(rightValue,2), rightValue);
