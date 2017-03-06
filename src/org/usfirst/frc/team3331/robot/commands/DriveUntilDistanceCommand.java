@@ -12,7 +12,7 @@ public class DriveUntilDistanceCommand extends Command {
 	
 	double distance;
 	Ultrasonic.Unit units;
-	double speed;
+	double speed = 0.6;
 	
     public DriveUntilDistanceCommand(double distance, Ultrasonic.Unit units) {
         // Use requires() here to declare subsystem dependencies
@@ -28,16 +28,16 @@ public class DriveUntilDistanceCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.sensorSubsystem.calibrateGyro();
+    	
+    	if (units == Ultrasonic.Unit.kInches) speed = (Robot.sensorSubsystem.getRangeInches() < distance) ? speed : -speed;
+    	else speed = (Robot.sensorSubsystem.getRangeMM() < distance) ? speed : -speed;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (units == Ultrasonic.Unit.kInches) speed = (Robot.sensorSubsystem.getRangeInches() < distance) ? 0.6 : -0.6;
-    	else speed = (Robot.sensorSubsystem.getRangeMM() < distance) ? 0.6 : -0.6;
-    	
     	System.out.println("Distance: " + Robot.sensorSubsystem.getRangeInches());
     	
-    	if (speed < 0){
+    	if (speed < 0) {
     		Robot.driveSubsystem.drive(speed, 
     				-Robot.sensorSubsystem.getGyroAngle() * Robot.driveSubsystem.CURVE_SCALE_FACTOR);
     	} else {

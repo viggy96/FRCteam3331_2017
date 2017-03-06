@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutoDriveForwardCommand extends Command {
 	double timeout;
+	double speed = -0.7;
 
     public AutoDriveForwardCommand(double timeout) {
         // Use requires() here to declare subsystem dependencies
@@ -25,7 +26,7 @@ public class AutoDriveForwardCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveSubsystem.drive(-0.7, 0);
+    	Robot.driveSubsystem.drive(speed, 0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -35,10 +36,12 @@ public class AutoDriveForwardCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.driveSubsystem.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.driveSubsystem.stop();
     }
 }
