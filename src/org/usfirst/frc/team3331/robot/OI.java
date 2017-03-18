@@ -1,6 +1,8 @@
 package org.usfirst.frc.team3331.robot;
 
 import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.usfirst.frc.team3331.robot.commands.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -27,6 +29,14 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenPressed(new ExampleCommand());
 
+	Button x = new JoystickButton(RobotMap.gamepad,RobotMap.xButton),
+		   y = new JoystickButton(RobotMap.gamepad,RobotMap.yButton);
+		
+	public OI() {
+			x.whileHeld(new WinchUpCommand());
+			y.whileHeld(new WinchDownCommand());
+	}
+		
 	// Run the command while the button is being held down and interrupt it once
 	// the button is released.
 	// button.whileHeld(new ExampleCommand());

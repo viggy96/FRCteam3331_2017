@@ -20,7 +20,7 @@ public class DriveUntilDistanceCommand extends Command {
     	requires(Robot.driveSubsystem);
     	requires(Robot.sensorSubsystem);
     	
-    	
+    	// filter distance parameter to conform with ultrasonic sensor minimum range requirements
     	this.distance = Robot.sensorSubsystem.normaliseRange(distance, units);
     	this.units = units;
     }
@@ -28,6 +28,17 @@ public class DriveUntilDistanceCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.sensorSubsystem.calibrateGyro();
+    	
+    	// For first leg of autonomous drive, the robot will be placed ~8 feet from the airship.
+    	// Given this, getRangeInches will be greater then distance (12.0), so use -speed.
+    	// For the second leg of autonomous drive (position 2), the robot will be up against the
+    	// airship. Given this, getRangeInches will be less than the distance parameter (24.0), so
+    	// use +speed.
+    	// For the third leg of autonomous drive (position 2), the robot will be facing the far
+    	// wall which is ~13 feet away. Given this, getRangeInches will be greater than distance (24.0),
+    	// so use -speed.
+    	
+    	// I think that -speed = go forward and +speed = go backwards - need to confirm!!
     	
     	if (units == Ultrasonic.Unit.kInches) speed = (Robot.sensorSubsystem.getRangeInches() < distance) ? speed : -speed;
     	else speed = (Robot.sensorSubsystem.getRangeMM() < distance) ? speed : -speed;
@@ -37,20 +48,29 @@ public class DriveUntilDistanceCommand extends Command {
     protected void execute() {
     	System.out.println("Distance: " + Robot.sensorSubsystem.getRangeInches());
     	
-    	if (speed < 0) {
+    	if (speed < 0) {  // first and third autonomous drive legs
     		Robot.driveSubsystem.drive(speed, 
     				-Robot.sensorSubsystem.getGyroAngle() * Robot.driveSubsystem.CURVE_SCALE_FACTOR);
-    	} else {
+    	} else {  // second autonomous drive leg
     		Robot.driveSubsystem.drive(speed, 
     				Robot.sensorSubsystem.getGyroAngle() * Robot.driveSubsystem.CURVE_SCALE_FACTOR);
     	}
-    			
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if (units == Ultrasonic.Unit.kInches) {
+    		// first autonomous drive leg, distance = 12.0 inches
+    		// drive until getRangeInches is less than or equal to 13.5 inches. This value gives
+    		// the robot time to stop short of the airship.
+    		// third autonomous drive leg, distance = 24.0 inches
+    		// drive until getRangeInches is less than or equal to 25.5 inches. This value gives
+    		// the robot time to stop short of the side wall.
     		if (speed < 0) return (Robot.sensorSubsystem.getRangeInches() <= distance + 1.5);
+    		// second autonomous drive leg, distance = 24.0 inches
+    		// drive until getRangeInches is greater than or equal to 25.5 inches. This value
+    		// backs the robot away from the airship by ~2 feet. This distance allows the
+    		// robot to clear the airship and make the turn toward the side wall.
     		else return (Robot.sensorSubsystem.getRangeInches() >= distance);
     	}
     	else {

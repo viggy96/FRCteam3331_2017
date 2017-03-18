@@ -10,12 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3331.robot.commands.AutoCommandGroup;
 import org.usfirst.frc.team3331.robot.commands.AutoDriveForwardCommand;
-import org.usfirst.frc.team3331.robot.commands.Turn90LeftCommand;
-import org.usfirst.frc.team3331.robot.commands.Turn90RightCommand;
 import org.usfirst.frc.team3331.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team3331.robot.subsystems.SensorSubsystem;
-import org.usfirst.frc.team3331.robot.subsystems.ShooterSubsystem;
-import org.usfirst.frc.team3331.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team3331.robot.subsystems.WinchSubsystem;
 
 /**
@@ -29,9 +25,7 @@ public class Robot extends IterativeRobot {
 
 	public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
 	public static final SensorSubsystem sensorSubsystem = new SensorSubsystem();
-	public static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 	public static final WinchSubsystem winchSubsystem = new WinchSubsystem();
-	public static final VisionSubsystem visionSubsystem = new VisionSubsystem();
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -45,10 +39,12 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		RobotMap.init();
 		oi = new OI();
-		chooser.addObject("Drive Forward", new AutoDriveForwardCommand(5.0));
-		chooser.addObject("Place Gear and turn left", new AutoCommandGroup(AutoCommandGroup.Direction.LEFT));
-		chooser.addObject("Place Gear and turn right", new AutoCommandGroup(AutoCommandGroup.Direction.RIGHT));
-		chooser.addDefault("Do Nothing", null);
+		chooser.addObject("Place Gear at Station 1", new AutoCommandGroup(AutoCommandGroup.Station.ONE, AutoCommandGroup.Direction.NULL));
+		chooser.addObject("Place Gear at Station 2 and turn left", new AutoCommandGroup(AutoCommandGroup.Station.TWO, AutoCommandGroup.Direction.LEFT));
+		chooser.addObject("Place Gear at Station 2 and turn right", new AutoCommandGroup(AutoCommandGroup.Station.TWO, AutoCommandGroup.Direction.RIGHT));
+		chooser.addObject("Place Gear at Station 3", new AutoCommandGroup(AutoCommandGroup.Station.THREE, AutoCommandGroup.Direction.NULL));
+		chooser.addObject("Do Nothing", null);
+		chooser.addDefault("Drive Forward", new AutoDriveForwardCommand(5.0));
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 

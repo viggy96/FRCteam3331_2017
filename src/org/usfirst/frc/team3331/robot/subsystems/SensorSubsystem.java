@@ -38,12 +38,12 @@ public class SensorSubsystem extends Subsystem {
     	return RobotMap.gyro.getRate();
     }
     
-    public double normaliseRange(double range, Ultrasonic.Unit units) {
-    	if (units == Ultrasonic.Unit.kInches && range < Robot.sensorSubsystem.MIN_RANGE_INCHES) 
+    public double normaliseRange(double distance, Ultrasonic.Unit units) {
+    	if (units == Ultrasonic.Unit.kInches && distance < Robot.sensorSubsystem.MIN_RANGE_INCHES) 
     		return Robot.sensorSubsystem.MIN_RANGE_INCHES;
-    	else if (units == Ultrasonic.Unit.kMillimeters && range < Robot.sensorSubsystem.MIN_RANGE_MM) 
+    	else if (units == Ultrasonic.Unit.kMillimeters && distance < Robot.sensorSubsystem.MIN_RANGE_MM) 
     		return Robot.sensorSubsystem.MIN_RANGE_MM;
-    	else return range;
+    	else return distance;
     }
     
     public double getRangeMM() {
