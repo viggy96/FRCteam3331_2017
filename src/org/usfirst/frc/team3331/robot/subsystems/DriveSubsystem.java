@@ -16,7 +16,7 @@ public class DriveSubsystem extends Subsystem {
 	public static double[] rollingRightArray;
 	
 	final static double LEFT_ACCELERATION = 0.05;
-	final static double RIGHT_ACCELERATION = 0.3;
+	final static double RIGHT_ACCELERATION = 0.25;
 	public static double leftSpeed;
 	public static double rightSpeed;
 
