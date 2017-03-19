@@ -15,6 +15,8 @@ public class DriveSubsystem extends Subsystem {
 	public static double[] rollingLeftArray;
 	public static double[] rollingRightArray;
 	
+	final static double LEFT_ACCELERATION = 0.05;
+	final static double RIGHT_ACCELERATION = 0.3;
 	public static double leftSpeed;
 	public static double rightSpeed;
 
@@ -75,71 +77,50 @@ public class DriveSubsystem extends Subsystem {
     	// balance left/right motors since right motor is slower than the left
     	// Ideally, this would be handled by a PIDController class. First, we
     	// need shaft encoders on the left/right motors...
-    	rightValue *= 1.10;
+    	//rightValue *= 1.10;
     	
     	// This is the previous half-speed setting
-    	if (RobotMap.gamepad.getRawButton(RobotMap.xButton)) {
+    	if (RobotMap.gamepad.getRawButton(RobotMap.rightTrigger) || RobotMap.gamepad.getRawButton(RobotMap.xButton)) {
     		leftValue *= 0.5;
     		rightValue *= 0.5;
         // This is a new option which calculates a rolling average value that is applied to the motors
         } else if (RobotMap.gamepad.getRawButton(RobotMap.yButton)) {
-        		
-        	// array maintenance - shift the array elements upward by one
-        	for (int i = 1; i < ARRAY_DEPTH; i++) {
-        		rollingLeftArray[i] = rollingLeftArray[i - 1];
-        		rollingRightArray[i] = rollingRightArray[i - 1];
-          	}
-        		
-        	// array maintenance - load the new left/right values into the first array element
-        	rollingLeftArray[0] = leftValue;
-        	rollingRightArray[0] = rightValue;
-        		
-        	//
-        	// calculate the new left/right values based on the rolling average
-        	//
-        	leftValue = rollingLeftArray[0] / ARRAY_DEPTH;
-        	rightValue = rollingRightArray[0] / ARRAY_DEPTH;
-        	for (int i = 1; i < ARRAY_DEPTH; i++) {
-          	  	leftValue += rollingLeftArray[i] / ARRAY_DEPTH;
-          		rightValue += rollingRightArray[i] / ARRAY_DEPTH;
-          	}
+
         // this is the previous full-speed setting
-    	} else if (RobotMap.gamepad.getRawButton(RobotMap.aButton)){
-    		// pass left/right values through unchanged.
-    		// leftValue = leftValue;
-    		// rightValue = rightValue;
-    		// leftValue = Math.copySign(Math.pow(leftValue, 2), leftValue);
-    		// rightValue = Math.copySign(Math.pow(rightValue,2), rightValue);
+//    	} else if (RobotMap.gamepad.getRawButton(RobotMap.aButton)){
+//    		// pass left/right values through unchanged.
+//    		// leftValue = leftValue;
+//    		// rightValue = rightValue;
+//    		// leftValue = Math.copySign(Math.pow(leftValue, 2), leftValue);
+//    		// rightValue = Math.copySign(Math.pow(rightValue,2), rightValue);
+//    		leftValue = 1;
+//    		rightValue = 1;
+    	} else {
         	if (leftValue > 0.1 && leftSpeed < 1.0) {
-        		leftSpeed += 0.01;
+        		leftSpeed += LEFT_ACCELERATION;
         	} else if (leftSpeed > 0 && leftValue < 0.1){
-        		leftSpeed -= 0.01;
+        		leftSpeed -= LEFT_ACCELERATION;
         	} 
         	else if (leftValue < -0.1 && leftSpeed > -1.0) {
-        		leftSpeed -= 0.01;
+        		leftSpeed -= LEFT_ACCELERATION;
         	} else if (leftSpeed < 0 && leftValue > -0.1){
-        		leftSpeed += 0.01;
+        		leftSpeed += LEFT_ACCELERATION;
         	} else if (leftSpeed < 0.1 && leftSpeed > -0.1) leftSpeed = 0;
 
         	
         	if (rightValue > 0.1 && rightSpeed < 1.0) {
-        		rightSpeed += 0.01;
+        		rightSpeed += RIGHT_ACCELERATION;
         	} else if (rightSpeed > 0 && rightValue < 0.1){
-        		rightSpeed -= 0.01;
+        		rightSpeed -= RIGHT_ACCELERATION;
         	}
         	else if (rightValue < -0.1 && rightSpeed < 1.0) {
-        		rightSpeed -= 0.01;
+        		rightSpeed -= RIGHT_ACCELERATION;
         	} else if (rightSpeed < 0 && rightValue > -0.1){
-        		rightSpeed += 0.01;
-        	} else if (rightSpeed < 0.1 && rightSpeed > -0.1) rightSpeed = 0;
+        		rightSpeed += RIGHT_ACCELERATION*7;
+        	} else if (rightSpeed < 0.2 && rightSpeed > -0.2) rightSpeed = 0;
+        	
         	leftValue = leftSpeed;
         	rightValue = rightSpeed;
-    	} else {
-       		 //pass left/right values through unchanged.
-//    		 leftValue = leftValue;
-//    		 rightValue = rightValue;
-    		 leftValue = Math.copySign(Math.pow(leftValue, 2), leftValue);
-    		 rightValue = Math.copySign(Math.pow(rightValue,2), rightValue);
     	}
     	
     	// Feed the drivetrain the raw input values
