@@ -78,11 +78,11 @@ public class DriveSubsystem extends Subsystem {
     	rightValue *= 1.10;
     	
     	// This is the previous half-speed setting
-    	if (RobotMap.gamepad.getRawButton(RobotMap.leftTrigger)) {
+    	if (RobotMap.gamepad.getRawButton(RobotMap.xButton)) {
     		leftValue *= 0.5;
     		rightValue *= 0.5;
         // This is a new option which calculates a rolling average value that is applied to the motors
-        } else if (RobotMap.gamepad.getRawButton(RobotMap.rightTrigger)) {
+        } else if (RobotMap.gamepad.getRawButton(RobotMap.yButton)) {
         		
         	// array maintenance - shift the array elements upward by one
         	for (int i = 1; i < ARRAY_DEPTH; i++) {
@@ -104,7 +104,7 @@ public class DriveSubsystem extends Subsystem {
           		rightValue += rollingRightArray[i] / ARRAY_DEPTH;
           	}
         // this is the previous full-speed setting
-    	} else {
+    	} else if (RobotMap.gamepad.getRawButton(RobotMap.aButton)){
     		// pass left/right values through unchanged.
     		// leftValue = leftValue;
     		// rightValue = rightValue;
@@ -134,11 +134,13 @@ public class DriveSubsystem extends Subsystem {
         	} else if (rightSpeed < 0.1 && rightSpeed > -0.1) rightSpeed = 0;
         	leftValue = leftSpeed;
         	rightValue = rightSpeed;
+    	} else {
+       		 //pass left/right values through unchanged.
+//    		 leftValue = leftValue;
+//    		 rightValue = rightValue;
+    		 leftValue = Math.copySign(Math.pow(leftValue, 2), leftValue);
+    		 rightValue = Math.copySign(Math.pow(rightValue,2), rightValue);
     	}
-    	// linear acceleration of the left and right motors
-
-    	
-    	//RobotMap.drivetrain.tankDrive(leftSpeed, rightSpeed);
     	
     	// Feed the drivetrain the raw input values
     	RobotMap.drivetrain.tankDrive(leftValue, rightValue);

@@ -29,12 +29,12 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenPressed(new ExampleCommand());
 
-	Button x = new JoystickButton(RobotMap.gamepad,RobotMap.xButton),
-		   y = new JoystickButton(RobotMap.gamepad,RobotMap.yButton);
+	Button leftTrigger = new JoystickButton(RobotMap.gamepad,RobotMap.leftTrigger),
+		   rightTrigger = new JoystickButton(RobotMap.gamepad,RobotMap.rightTrigger);
 		
 	public OI() {
-			x.whileHeld(new WinchUpCommand());
-			y.whileHeld(new WinchDownCommand());
+			leftTrigger.whileHeld(new WinchUpCommand());
+			rightTrigger.whileHeld(new WinchDownCommand());
 	}
 		
 	// Run the command while the button is being held down and interrupt it once
