@@ -54,8 +54,8 @@ public class RobotMap {
 		drivetrain.setInvertedMotor(MotorType.kFrontRight, true);
 		drivetrain.setInvertedMotor(MotorType.kRearRight, true);
 		
-		camera1.setFPS(12);
-    	camera1.setResolution(image_width, image_height);
+		//camera1.setFPS(12);
+    	//camera1.setResolution(image_width, image_height);
     	CameraServer.getInstance().startAutomaticCapture(camera1);
 	}
 }

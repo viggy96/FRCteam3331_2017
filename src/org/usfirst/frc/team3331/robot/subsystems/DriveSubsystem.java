@@ -9,11 +9,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class DriveSubsystem extends Subsystem {
-
-	public static final int ARRAY_DEPTH = 4;
-	
-	public static double[] rollingLeftArray;
-	public static double[] rollingRightArray;
 	
 	final static double LEFT_ACCELERATION = 0.05;
 	final static double RIGHT_ACCELERATION = 0.25;
@@ -29,18 +24,8 @@ public class DriveSubsystem extends Subsystem {
 	public DriveSubsystem() {
 		RobotMap.drivetrain.setSafetyEnabled(false);
 		
-		// allocate memory for rolling-average arrays
-		rollingLeftArray = new double[ARRAY_DEPTH];
-		rollingRightArray = new double[ARRAY_DEPTH];
-		
 		leftSpeed = 0;
 		rightSpeed = 0;
-		
-		// initialize rolling-average arrays
-		for (int i = 0; i < ARRAY_DEPTH; i++) {
-			rollingLeftArray[i] = 0.0;
-			rollingRightArray[i] = 0.0;
-		}
 	}
 
     public void initDefaultCommand() {
@@ -83,11 +68,8 @@ public class DriveSubsystem extends Subsystem {
     	if (RobotMap.gamepad.getRawButton(RobotMap.rightTrigger) || RobotMap.gamepad.getRawButton(RobotMap.xButton)) {
     		leftValue *= 0.5;
     		rightValue *= 0.5;
-        // This is a new option which calculates a rolling average value that is applied to the motors
-        } else if (RobotMap.gamepad.getRawButton(RobotMap.yButton)) {
-
-        // this is the previous full-speed setting
-//    	} else if (RobotMap.gamepad.getRawButton(RobotMap.aButton)){
+        // This is the full speed setting
+        } else if (RobotMap.gamepad.getRawButton(RobotMap.aButton)) {
 //    		// pass left/right values through unchanged.
 //    		// leftValue = leftValue;
 //    		// rightValue = rightValue;
