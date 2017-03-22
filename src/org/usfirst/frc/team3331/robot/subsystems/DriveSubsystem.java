@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3331.robot.subsystems;
 
+import org.usfirst.frc.team3331.robot.Robot;
 import org.usfirst.frc.team3331.robot.RobotMap;
 import org.usfirst.frc.team3331.robot.commands.TeleopDriveCommand;
 
@@ -14,6 +15,11 @@ public class DriveSubsystem extends Subsystem {
     // here. Call these from Commands.
 	
 	public final double CURVE_SCALE_FACTOR = 0.03;
+	private final double EPSILON = 0.03;
+	private final double MOTOR_RAMP_RATE = 0.2;
+	private final double ZER0_EPSILON = 0.03;
+	private final double SLOW_SPEED = 0.6;
+	private static double oldLeftValue = 0, oldRightValue = 0;
 	
 	public DriveSubsystem() {
 		RobotMap.drivetrain.setSafetyEnabled(false);
@@ -44,16 +50,46 @@ public class DriveSubsystem extends Subsystem {
     public void teleopDrive() {
     	double leftValue = RobotMap.gamepad.getRawAxis(RobotMap.leftStickY);
     	double rightValue = RobotMap.gamepad.getRawAxis(RobotMap.rightStickY);
+    	double speed = (leftValue + rightValue) / 2;
     	
     	if (RobotMap.gamepad.getRawButton(RobotMap.leftTrigger)) {
-    		leftValue *= 0.6;
-    		rightValue *= 0.6;
+    		leftValue *= SLOW_SPEED;
+    		rightValue *= SLOW_SPEED;
     	} else {
-    		leftValue = Math.copySign(Math.pow(leftValue, 2), leftValue);
-    		rightValue = Math.copySign(Math.pow(rightValue,2), rightValue);
+    		
+    		// Ramping left value to avoid unintended acceleration
+    		if (leftValue > oldLeftValue) leftValue = oldLeftValue + MOTOR_RAMP_RATE;
+    		else if (leftValue < oldLeftValue) leftValue = oldLeftValue - MOTOR_RAMP_RATE;
+    		
+    		// Ramping right value to avoid unintended acceleration
+    		if (rightValue > oldRightValue) rightValue = oldRightValue + MOTOR_RAMP_RATE;
+    		else if (rightValue < oldRightValue) rightValue = oldRightValue - MOTOR_RAMP_RATE;
+    		
+    		// Stopping the drive, when joysticks are within ZERO_EPSILON of 0
+    		if (Math.abs(leftValue) < ZER0_EPSILON && Math.abs(rightValue) < ZER0_EPSILON) 
+    			RobotMap.drivetrain.drive(0, 0);
+    		
+    		// Detecting when to use gyro to help drive straight
+    		if (Math.abs(leftValue - rightValue) <= EPSILON && speed > (SLOW_SPEED + 0.1)) {
+    			RobotMap.gyro.reset();
+    			
+    			// Gyro correction for going forward, in order to drive straight
+    			if (speed > 0) {
+    				RobotMap.drivetrain.drive(speed, 
+    						-Robot.sensorSubsystem.getGyroAngle() * Robot.driveSubsystem.CURVE_SCALE_FACTOR);
+    			} 
+    			// Gyro correction for going backwards in order to drive straight
+    			else { 
+    				RobotMap.drivetrain.drive(speed, 
+    						Robot.sensorSubsystem.getGyroAngle() * Robot.driveSubsystem.CURVE_SCALE_FACTOR);
+    			}
+    		} else {
+    			RobotMap.drivetrain.tankDrive(leftValue, rightValue);
+    		}
     	}
     	
-    	RobotMap.drivetrain.tankDrive(leftValue, rightValue);
+    	oldLeftValue = leftValue;
+    	oldRightValue = rightValue;
     }
 }
 

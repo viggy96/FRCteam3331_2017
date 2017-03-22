@@ -1,6 +1,10 @@
 package org.usfirst.frc.team3331.robot;
 
+import org.usfirst.frc.team3331.robot.commands.WinchDownCommand;
+import org.usfirst.frc.team3331.robot.commands.WinchUpCommand;
+
 import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -34,4 +38,12 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
+	
+	Button leftTrigger = new JoystickButton(RobotMap.gamepad,RobotMap.leftTrigger),
+			   rightTrigger = new JoystickButton(RobotMap.gamepad,RobotMap.rightTrigger);
+			
+	public OI() {
+		leftTrigger.whileHeld(new WinchUpCommand());
+		rightTrigger.whileHeld(new WinchDownCommand());
+	}
 }
