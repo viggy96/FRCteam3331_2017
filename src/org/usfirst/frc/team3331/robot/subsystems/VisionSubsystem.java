@@ -5,9 +5,9 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+//import org.json.simple.JSONObject;
+//import org.json.simple.parser.JSONParser;
+//import org.json.simple.parser.ParseException;
 import org.usfirst.frc.team3331.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CameraServer;
@@ -32,7 +32,7 @@ public class VisionSubsystem extends Subsystem {
     }
     
     public VisionSubsystem() {
-    	visionServer = new Thread(new Runnable() {
+    	/*visionServer = new Thread(new Runnable() {
     		DatagramSocket serverSocket;
     		byte[] receiveData = new byte[1024];
     		JSONParser parser;
@@ -66,7 +66,7 @@ public class VisionSubsystem extends Subsystem {
     		
     	});
     	
-    	visionServer.start();
+    	visionServer.start(); */
     }
     
     public double getAngleToTarget() {
