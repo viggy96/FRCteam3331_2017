@@ -12,9 +12,9 @@ public class DriveUntilDistanceCommand extends Command {
 	
 	double distance;
 	Ultrasonic.Unit units;
-	double speed = 0.6;
+	double speed;
 	
-    public DriveUntilDistanceCommand(double distance, Ultrasonic.Unit units) {
+    public DriveUntilDistanceCommand(double distance, double speed, Ultrasonic.Unit units) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
@@ -22,6 +22,7 @@ public class DriveUntilDistanceCommand extends Command {
     	
     	
     	this.distance = Robot.sensorSubsystem.normaliseRange(distance, units);
+    	this.speed = speed;
     	this.units = units;
     }
 

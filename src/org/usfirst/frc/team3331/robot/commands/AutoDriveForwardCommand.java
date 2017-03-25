@@ -9,24 +9,27 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutoDriveForwardCommand extends Command {
 	double timeout;
-	double speed = -0.7;
+	double speed = -0.8;
 
     public AutoDriveForwardCommand(double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
+    	requires(Robot.sensorSubsystem);
     	this.timeout = timeout;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.sensorSubsystem.calibrateGyro();
     	Robot.driveSubsystem.stop();
     	setTimeout(timeout);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveSubsystem.drive(speed, 0);
+    	Robot.driveSubsystem.drive(speed, 
+				-Robot.sensorSubsystem.getGyroAngle() * Robot.driveSubsystem.CURVE_SCALE_FACTOR);
     }
 
     // Make this return true when this Command no longer needs to run execute()

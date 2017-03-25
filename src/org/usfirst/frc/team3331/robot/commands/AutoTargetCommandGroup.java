@@ -30,6 +30,7 @@ public class AutoTargetCommandGroup extends CommandGroup {
         // arm.
     	
     	addSequential(new AlignWithTargetCommand());
-    	addSequential(new DriveUntilDistanceCommand(RobotMap.DISTANCE_FROM_TARGET_INCHES, Ultrasonic.Unit.kInches));
+    	// Hey, Viggy, I forced a value of 0.5 for speed...
+    	addSequential(new DriveUntilDistanceCommand(RobotMap.DISTANCE_FROM_TARGET_INCHES, 0.5, Ultrasonic.Unit.kInches));
     }
 }

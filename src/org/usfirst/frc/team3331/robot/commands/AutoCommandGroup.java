@@ -30,19 +30,20 @@ public class AutoCommandGroup extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new DriveUntilDistanceCommand(12.0, Ultrasonic.Unit.kInches));
+    	addSequential(new DriveUntilDistanceCommand(14.0, 0.8, Ultrasonic.Unit.kInches));
+		addSequential(new DriveUntilDistanceCommand(10.0, 0.5, Ultrasonic.Unit.kInches));
     	addSequential(new WaitCommand(5.0));
-    	addSequential(new DriveUntilDistanceCommand(24.0, Ultrasonic.Unit.kInches));
+    	addSequential(new DriveUntilDistanceCommand(15.0, 0.8, Ultrasonic.Unit.kInches));
     	if (direction == Direction.LEFT) {
     		addSequential(new Turn90LeftCommand());
-    		addSequential(new DriveUntilDistanceCommand(24.0, Ultrasonic.Unit.kInches));
+    		addSequential(new DriveUntilDistanceCommand(12.0, 0.9, Ultrasonic.Unit.kInches));
     		addSequential(new Turn90RightCommand());
-    		addSequential(new DriveUntilDistanceCommand(12.0, Ultrasonic.Unit.kInches));
+    		addSequential(new AutoDriveForwardCommand(4.0));
     	} else if (direction == Direction.RIGHT) {
     		addSequential(new Turn90RightCommand());
-    		addSequential(new DriveUntilDistanceCommand(24.0, Ultrasonic.Unit.kInches));
+    		addSequential(new DriveUntilDistanceCommand(24.0, 0.9, Ultrasonic.Unit.kInches));
     		addSequential(new Turn90LeftCommand());
-    		addSequential(new DriveUntilDistanceCommand(12.0, Ultrasonic.Unit.kInches));
+    		addSequential(new AutoDriveForwardCommand(4.0));
     	}
     }
 }
